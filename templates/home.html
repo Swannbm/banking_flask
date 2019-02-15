@@ -1,0 +1,31 @@
+{% extends "base_boot.html" %}
+
+{% block title %}HOME PAGE{% endblock %}
+{% block body %}
+
+<h2>Clients list <a class="btn btn-primary btn-sm" href="{{ url_for('add_client') }}" role="button">+</a></h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Firstname</th>
+            <th scope="col">Lastname</th>
+            <th scope="col">E-mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+        <tr>
+            <th scope="row">
+                <a href="{{ url_for('client_file', client_id=client.client_id) }}">{{ client.firstname }}</a>
+                <span class="badge badge-secondary">{{client.accounts|length}}</span>
+            </th>
+            <td>{{ client.lastname }}</td>
+            <td>{{ client.email }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Legend:
+<br/><span class="badge badge-secondary">nb accounts</span>
+</p>
+{% endblock %}

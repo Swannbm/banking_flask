@@ -1,0 +1,66 @@
+{% extends "base_boot.html" %}
+
+{% block title %}CLIENT FILE{% endblock %}
+{% block body %}
+<h2>{{ client.firstname }} {{ client.lastname }}</h2>
+<hr/>
+<h3>Accounts list
+    <div class="btn-group btn-group-sm" role="group">
+      <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add account
+      </button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+        <a class="dropdown-item" href="{{ url_for('add_account', client_id=client.client_id, type=1) }}">Debit account</a>
+        <a class="dropdown-item" href="{{ url_for('add_account', client_id=client.client_id, type=2) }}">Saving account</a>
+      </div>
+    </div></h3>
+    {% if error is defined %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+<form method='POST'>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Account number</th>
+            <th scope="col">Rate</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Change balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for account in client.accounts %}
+        <tr>
+            <th scope="row"><a href="#">{{ account.get_type_name }}</a></th>
+            <td>{{ account.number }}</td>
+            <td>
+                {% if account.rate is defined %}
+                    {{ account.rate*100 }}%
+                {% endif %}
+            </td>
+            <td>{{ account.get_account_balance() }}</td>
+            <td>
+            <form class="form-inline" method='POST'>
+                <input type="hidden" value="{{ account.number }}" name="account_number">
+                <div class="btn-group" role="group">
+                    <input type="text" class="form-control" size="6" placeholder="0.00" name="amount">
+                    <button type="submit" class="btn btn-success mb-1" value="credit" name="action">+</button>
+                    {% if account.rate is not defined %}
+                        <button type="submit" class="btn btn-danger mb-1" value="debit" name="action">-</button>
+                    {% else %}
+                    <button type="submit" class="btn btn-warning mb-1" value="interest" name="action">$</button>
+                    {% endif %}
+                </div>
+            </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</form>
+
+<a href='{{ url_for('home') }}'>Back to list</a>
+
+{% endblock %}
