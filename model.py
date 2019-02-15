@@ -98,4 +98,5 @@ class SavingAccount(BankAccount):
     def __str__(self):
         return 'Saving {} {}'.format(self.number, self._balance)
 
-Base.metadata.create_all(engine)
+if __name__ == '__main__':
+    Base.metadata.create_all(engine)
