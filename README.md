@@ -9,3 +9,7 @@ pip install sqlalchemy
 pip install flask
 pip install flask_debugtoolbar
 ```
+
+## Install the bdd
+
+Before any use of the app, please execute model.py to create the database (sqlite).
