@@ -4,6 +4,7 @@ from model import session as db
 from flask import Flask # pip install flask
 from flask_debugtoolbar import DebugToolbarExtension # pip install flask_debugtoolbar
 
+# maitre JeuDridi modif
 
 logging.config.fileConfig('bankin_flask/log.ini')
 log = logging.getLogger(__name__)
